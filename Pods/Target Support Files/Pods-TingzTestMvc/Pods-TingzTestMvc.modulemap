@@ -1,0 +1,6 @@
+framework module Pods_TingzTestMvc {
+  umbrella header "Pods-TingzTestMvc-umbrella.h"
+
+  export *
+  module * { export * }
+}
