@@ -16,6 +16,18 @@ class MovieVC: UITableViewController {
     
     
     //MARK: - Properties of class
+    
+    private var viewModel = MovieVM()
+    
+    
+    /*
+     A lazy stored property is a property whose initial value is not calculated until the first time it is used
+     NSFetchResultController
+      -  We can use NSFetchResultController when we need fetching, inserting, updating and deleting in core data and we need to update user interface like UITableView and UICollectionView.
+     -  Every time a insert, update or delete for a managed object model is performed in managed object context, NSFRC provides the delegate call backs.
+     -  NSFRC provides a method performFetch() which returns array of NSManagedObject models. This array of NSManagedObject models works very well with UITableViewDelegate and UITableViewDataSource methods as a feed array.
+     -  NSFRC only works with core data.
+    */
     lazy var fetchedhResultController: NSFetchedResultsController<NSFetchRequestResult> = {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: Movie.self))
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "releaseYear", ascending: false)]
@@ -23,18 +35,19 @@ class MovieVC: UITableViewController {
         frc.delegate = self
         return frc
     }()
+    
+    
     fileprivate let hud = JGProgressHUD(style: .dark)
     private let cellID = "cellID"
     //MARK: - ViewController LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hud.textLabel.text = "Loading"
         
+        hud.textLabel.text = "Loading"
         hud.show(in: view)
+        
         clearData()
-        //tableView.tableHeaderView = nil
-        //view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         updateTableContent()
         
     }
@@ -47,7 +60,7 @@ class MovieVC: UITableViewController {
     func updateTableContent(){
         
         do {
-            try self.fetchedhResultController.performFetch()
+            try self.fetchedhResultController.performFetch()//performFetch()  returns array of NSManagedObject (rows)
         } catch let error  {
             self.hud.dismiss()
             print("ERROR: \(error)")
@@ -55,12 +68,12 @@ class MovieVC: UITableViewController {
         
         
         let service = APIService()
-        service.getDataWithStaticJSONurl{ (result) in
+        let url = "https://api.androidhive.info/json/movies.json"
+        service.getDataWithurl(url: url){ (result) in
             switch result {
             case .Success(let data):
                 self.clearData()
                 self.saveInCoreDataWith(array: data)
-            //print(data)
             case .Error(let message):
                 DispatchQueue.main.async {
                     self.showAlertWith(title: "Error", message: message)
@@ -71,12 +84,13 @@ class MovieVC: UITableViewController {
     
     private func clearData() {
         do {
-            let context = CoreDataStack.sharedInstance.persistentContainer.viewContext
+            let context = CoreDataStack.sharedInstance.persistentContainer.viewContext //use of a Singleton Class in Swift
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Movie")
             do {
                 let objects  = try context.fetch(fetchRequest) as? [NSManagedObject]
+                //Use map to loop over a collection and apply the same operation to each element in the collection:
                 _ = objects.map{$0.map{context.delete($0)}}
-                CoreDataStack.sharedInstance.saveContext()
+                CoreDataStack.sharedInstance.saveContext() //use of a Singleton Class in Swift
             } catch let error {
                 print("ERROR DELETING : \(error)")
             }
@@ -93,6 +107,10 @@ class MovieVC: UITableViewController {
         alertController.addAction(action)
         self.present(alertController, animated: true, completion: nil)
     }
+    /*
+     NSManagedObject is a row...
+     NSManagedObjectContext allows you to insert, save, and retrieve (using NSFetchRequest) NSManagedObjects from the database.”
+    */
     private func createMovieEntityFrom(dictionary: [String: AnyObject]) -> NSManagedObject? {
         let context = CoreDataStack.sharedInstance.persistentContainer.viewContext
         if let movieEntity = NSEntityDescription.insertNewObject(forEntityName: "Movie", into: context) as? Movie {
@@ -106,6 +124,7 @@ class MovieVC: UITableViewController {
         return nil
     }
     private func saveInCoreDataWith(array: [[String: AnyObject]]) {
+        //Use map to loop over a collection and apply the same operation to each element in the collection:
         _ = array.map{self.createMovieEntityFrom(dictionary: $0)}
         do {
             try CoreDataStack.sharedInstance.persistentContainer.viewContext.save()
@@ -164,6 +183,7 @@ extension MovieVC {
         }
         return cell
     }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let count = fetchedhResultController.sections?.first?.numberOfObjects {
             return count

@@ -21,6 +21,7 @@
 		FB49305222809C6F00F32F96 /* MovieCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49305122809C6F00F32F96 /* MovieCellTableViewCell.swift */; };
 		FB49305722809D7600F32F96 /* CustomUIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49305622809D7600F32F96 /* CustomUIImageView.swift */; };
 		FB4930592280A0C000F32F96 /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4930582280A0C000F32F96 /* DetailVC.swift */; };
+		FB49305B2280A72000F32F96 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49305A2280A72000F32F96 /* MovieViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		FB49305122809C6F00F32F96 /* MovieCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCellTableViewCell.swift; sourceTree = "<group>"; };
 		FB49305622809D7600F32F96 /* CustomUIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIImageView.swift; sourceTree = "<group>"; };
 		FB4930582280A0C000F32F96 /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
+		FB49305A2280A72000F32F96 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			children = (
 				FB49304B228094B100F32F96 /* Model */,
 				FB49305022809C4F00F32F96 /* View */,
+				FB49305C2280A72D00F32F96 /* ViewModel */,
 				FB49305422809D1B00F32F96 /* Controller */,
 				FB49305322809D0200F32F96 /* Stroryboards */,
 				FB49305522809D4800F32F96 /* Extensions */,
@@ -105,6 +108,7 @@
 				FB49303C22808BCC00F32F96 /* Assets.xcassets */,
 				FB49304122808BCC00F32F96 /* Info.plist */,
 				FB49303922808BCB00F32F96 /* TingzTestMvc.xcdatamodeld */,
+				FB49305A2280A72000F32F96 /* MovieViewModel.swift */,
 			);
 			path = TingzTestMvc;
 			sourceTree = "<group>";
@@ -150,6 +154,13 @@
 				FB49305622809D7600F32F96 /* CustomUIImageView.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FB49305C2280A72D00F32F96 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,6 +291,7 @@
 				FB4930592280A0C000F32F96 /* DetailVC.swift in Sources */,
 				FB49304D228096A900F32F96 /* CoreDataStack.swift in Sources */,
 				FB49303B22808BCB00F32F96 /* TingzTestMvc.xcdatamodeld in Sources */,
+				FB49305B2280A72000F32F96 /* MovieViewModel.swift in Sources */,
 				FB49303322808BCB00F32F96 /* AppDelegate.swift in Sources */,
 				FB49305722809D7600F32F96 /* CustomUIImageView.swift in Sources */,
 			);
